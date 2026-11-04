@@ -1,186 +1,78 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#101827">
-<link rel="manifest" href="manifest.webmanifest">
-
-<title>Canteen Customer Khata</title>
-<style>
-:root{--bg:#101827;--panel:#1a293d;--panel2:#243a54;--line:#3b526e;--txt:#f4f7fb;--muted:#b5c3d5;--green:#65ddb1;--yellow:#ffd166;--red:#ff8585}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(140deg,#0d1725,#172c40);color:var(--txt);font-family:Arial,system-ui,sans-serif}
-header{background:#0b1420;padding:18px 14px;text-align:center;border-bottom:1px solid var(--line)}h1{margin:0;font-size:26px}header p{margin:7px 0 0;color:var(--muted)}
-main{max-width:1100px;margin:18px auto;padding:0 12px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.stat,.panel{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:14px}.stat{text-align:center}.stat b{display:block;color:var(--green);font-size:23px;margin-bottom:3px}.stat span{font-size:12px;color:var(--muted)}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.tabs button,button{border:0;border-radius:10px;padding:11px 14px;background:var(--panel2);color:var(--txt);font-weight:700;cursor:pointer}.tabs button.active,.primary{background:var(--green);color:#102235}.danger{background:#693b46}.muted{color:var(--muted);font-size:13px;line-height:1.7}.panel{margin:12px 0}.hidden{display:none!important}
-label{display:block;color:var(--muted);font-size:13px;margin:8px 0 5px}input,select{width:100%;padding:12px;border-radius:9px;border:1px solid #526982;background:#0f1b2b;color:var(--txt);font-size:16px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.row>*{flex:1}.price{font-size:25px;color:var(--yellow);font-weight:bold}.pill{display:inline-block;padding:5px 9px;border-radius:20px;background:#30465f;font-size:12px}.ok{background:#17533e}.pending{background:#604a22}.no{background:#623842}
-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px}th,td{text-align:left;padding:10px 7px;border-bottom:1px solid var(--line);vertical-align:top}th{color:var(--green)}.tablewrap{overflow-x:auto}.customer{padding:12px;border:1px solid var(--line);border-radius:11px;margin:8px 0;background:#20334b;cursor:pointer}.customer:hover{border-color:var(--green)}.customer strong{font-size:17px}.bigid{color:var(--yellow);font-weight:bold}.notice{background:#213b4d;border:1px solid #42647c;padding:10px;border-radius:10px;line-height:1.6}.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.actions button{padding:9px 11px}.empty{text-align:center;padding:22px;color:var(--muted)}
-@media(max-width:650px){.stats{grid-template-columns:repeat(2,1fr)}.grid2,.grid3{grid-template-columns:1fr}.tabs button{flex:1 1 40%}h1{font-size:22px}table{min-width:650px}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0c6b53">
+  <meta name="description" content="An offline-friendly canteen customer accounts and order tracker.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <title>Canteen Khata</title>
+  <style>
+    :root{color-scheme:light;--green:#087f5b;--green-dark:#066448;--mint:#e8f7f0;--ink:#172b25;--muted:#697a73;--line:#e1eae5;--paper:#fff;--bg:#f4f8f5;--red:#b93838;--red-bg:#fff0ee;--amber:#8b5a00;--amber-bg:#fff6db;--shadow:0 10px 28px rgba(24,62,46,.07)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-tap-highlight-color:transparent}button,input,select{font:inherit}button{cursor:pointer;touch-action:manipulation}.topbar{background:linear-gradient(125deg,#075b46,#10956b);color:white;padding:calc(20px + env(safe-area-inset-top)) 16px 21px}.top-inner{max-width:980px;margin:auto}.brand{display:flex;align-items:center;gap:12px}.brand-icon{width:46px;height:46px;display:grid;place-items:center;background:#ffffff24;border-radius:15px;font-size:25px}.topbar h1{font-size:23px;margin:0;letter-spacing:-.4px}.topbar p{margin:5px 0 0;color:#d9f6e8;font-size:13px}.today-pill{margin-top:16px;display:inline-flex;gap:7px;align-items:center;background:#ffffff1a;border:1px solid #ffffff30;padding:7px 11px;border-radius:999px;font-size:13px}.wrap{max-width:980px;margin:0 auto;padding:16px 14px calc(28px + env(safe-area-inset-bottom))}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stat,.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}.stat{padding:14px 15px;min-width:0}.stat-label{color:var(--muted);font-size:12px}.stat-value{display:block;font-size:20px;font-weight:800;margin-top:3px;letter-spacing:-.4px;overflow-wrap:anywhere}.stat:nth-child(1) .stat-value,.stat:nth-child(2) .stat-value{color:var(--green)}.nav{display:flex;gap:8px;overflow:auto;padding:14px 0 12px;scrollbar-width:none}.nav::-webkit-scrollbar{display:none}.nav button{white-space:nowrap;min-height:43px;padding:0 14px;border:1px solid var(--line);border-radius:12px;background:#fff;color:#40534a;font-weight:700}.nav button.active{background:var(--green);border-color:var(--green);color:white}.card{padding:18px;margin:0 0 13px}.view[hidden]{display:none}.card h2{font-size:19px;margin:0 0 5px;letter-spacing:-.25px}.card h3{font-size:16px;margin:0 0 12px}.sub{color:var(--muted);font-size:13px;margin:0 0 15px}.field{min-width:0}label{display:block;font-size:12px;font-weight:700;color:#51645b;margin:0 0 6px}input,select{width:100%;height:46px;border:1px solid #d5e0d9;border-radius:11px;background:white;color:var(--ink);padding:0 12px;outline:none}input:focus,select:focus{border-color:#31a77d;box-shadow:0 0 0 3px #31a77d24}input::placeholder{color:#9aa8a0}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.form-grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.btn{border:0;border-radius:11px;min-height:43px;padding:0 15px;font-weight:750;background:#edf3ef;color:#30483d}.btn.primary{background:var(--green);color:white}.btn.primary:active{background:var(--green-dark)}.btn.small{min-height:35px;padding:0 10px;font-size:12px;border-radius:9px}.btn.danger{background:var(--red-bg);color:var(--red)}.btn.ghost{background:white;border:1px solid var(--line)}.btn:disabled{opacity:.55;cursor:not-allowed}.note{font-size:13px;color:var(--muted);margin:12px 0 0}.notice{padding:11px 12px;background:var(--mint);color:var(--green-dark);border-radius:11px;font-size:13px;margin-top:12px}.notice.warn{background:var(--amber-bg);color:var(--amber)}.searchbox{position:relative;margin:14px 0}.results{display:grid;gap:8px}.customer-result{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;padding:13px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}.customer-result:active{background:var(--mint)}.customer-name{font-weight:750}.customer-id{font-size:12px;color:var(--green);font-weight:800}.empty{padding:18px 12px;text-align:center;border:1px dashed #cbd9d0;border-radius:12px;color:var(--muted);font-size:13px}.customer-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.customer-head h2{margin:5px 0 2px}.customer-balances{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:15px 0}.balance{padding:12px 10px;background:#f4f8f5;border-radius:12px}.balance span{display:block;color:var(--muted);font-size:11px}.balance b{display:block;margin-top:3px;font-size:15px;overflow-wrap:anywhere}.balance.due{background:var(--amber-bg)}.balance.due b{color:var(--amber)}.order-total{display:flex;justify-content:space-between;gap:8px;background:#f4f8f5;padding:12px;border-radius:11px;margin-top:12px}.order-total strong{color:var(--green-dark)}.table-wrap{overflow:auto;margin:8px -3px 0}table{width:100%;border-collapse:collapse;min-width:680px;font-size:13px}th,td{text-align:left;padding:11px 9px;border-bottom:1px solid var(--line);vertical-align:middle}th{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}td .subline{font-size:11px;color:var(--muted);margin-top:3px}.status{display:inline-flex;padding:5px 8px;border-radius:999px;font-size:11px;font-weight:750;white-space:nowrap}.status.paid,.status.delivered{background:var(--mint);color:var(--green-dark)}.status.unpaid,.status.pending{background:var(--amber-bg);color:var(--amber)}.product-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}.product-row:last-child{border-bottom:0}.product-row strong{display:block}.product-row small{color:var(--muted)}.danger-zone{border-top:1px solid var(--line);margin-top:16px;padding-top:13px}.footer{color:var(--muted);text-align:center;font-size:12px;padding:9px 0 0}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    @media(max-width:640px){.wrap{padding:13px 11px calc(24px + env(safe-area-inset-bottom))}.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.stat{padding:12px}.stat-value{font-size:18px}.form-grid.three{grid-template-columns:1fr}.card{padding:15px;border-radius:14px}.nav{margin:0 -1px}.customer-balances{gap:6px}.balance{padding:10px 8px}.balance b{font-size:13px}.topbar h1{font-size:21px}}
+    @media(max-width:360px){.form-grid{grid-template-columns:1fr}.customer-balances{grid-template-columns:1fr}.customer-head{display:block}}
+  </style>
 </head>
 <body>
-<header><h1>🥤 Canteen Customer Khata</h1><p>Customer Accounts • Daily Orders • Delivery • Payments • Complete History</p></header>
-<main>
-<div class="stats">
- <div class="stat"><b id="totalCustomers">0</b><span>Total Customers</span></div>
- <div class="stat"><b id="todayOrders">0</b><span>Today's Orders</span></div>
- <div class="stat"><b id="todaySales">Rs 0</b><span>Today's Sales</span></div>
- <div class="stat"><b id="pendingAmount">Rs 0</b><span>Pending Payments</span></div>
-</div>
-<div class="tabs">
- <button class="active" onclick="show('search',this)">🔎 Customer Search</button>
- <button onclick="show('newCustomer',this)">➕ New Customer</button>
- <button onclick="show('prices',this)">💰 Manage Items & Prices</button>
- <button onclick="show('backup',this)">💾 Backup</button>
-</div>
-
-<section id="search" class="panel">
- <h2>Find a Customer</h2><label>Enter customer name or Customer ID</label>
- <input id="searchBox" placeholder="For example: Ali or C-0001" oninput="searchCustomers()">
- <div id="searchResults" class="muted">Customer results will appear here. Save each customer's name once, then search whenever they return.</div>
- <div id="customerView"></div>
-</section>
-
-<section id="newCustomer" class="panel hidden">
- <h2>Add New Customer</h2><p class="muted">Enter the customer's name once. The system will generate a unique ID automatically.</p>
- <label>Customer Name</label><input id="newName" placeholder="Customer name" autocomplete="off">
- <div class="actions"><button class="primary" onclick="addCustomer()">Save Customer</button></div><div id="newMsg"></div>
-</section>
-
-<section id="prices" class="panel hidden">
- <h2>Manage Items & Prices</h2>
- <p class="muted">Add new menu items, change item names, and edit Medium and Large prices whenever you need. Price changes apply to new orders only. Old order records keep their original prices.</p>
- <div class="panel" style="background:#20364e">
-  <h3 id="itemFormTitle">➕ Add a New Item</h3>
-  <input type="hidden" id="editItemId">
-  <div class="grid3">
-   <div><label>Item Name</label><input id="itemName" placeholder="For example: Mango Shake"></div>
-   <div><label>Medium Price (Rs)</label><input id="mediumPrice" type="number" min="0" step="1" placeholder="e.g. 150"></div>
-   <div><label>Large Price (Rs)</label><input id="largePrice" type="number" min="0" step="1" placeholder="e.g. 200"></div>
-  </div>
-  <div class="actions"><button class="primary" onclick="saveItem()">Save Item / Price</button><button onclick="clearItemForm()">Clear</button></div>
-  <p id="itemMsg" class="muted"></p>
- </div>
- <h3>Your Menu and Current Prices</h3>
- <div class="tablewrap"><table><thead><tr><th>Item</th><th>Medium</th><th>Large</th><th>Actions</th></tr></thead><tbody id="priceRows"></tbody></table></div>
-</section>
-
-<section id="backup" class="panel hidden">
- <h2>Data Backup and Restore</h2><div class="notice">Your data is stored in this browser on this device. Download a backup regularly, especially before changing devices or clearing browser data. The backup includes customers, orders, and your menu prices.</div>
- <div class="actions"><button class="primary" onclick="exportBackup()">Download Full Backup</button><button onclick="exportCSV()">Download Orders as CSV</button></div>
- <label>Restore a Previous Backup (JSON)</label><input type="file" id="restoreFile" accept=".json,application/json"><div class="actions"><button onclick="restoreBackup()">Restore Backup</button></div><p id="backupMsg" class="muted"></p>
-</section>
-</main>
+  <header class="topbar"><div class="top-inner"><div class="brand"><div class="brand-icon" aria-hidden="true">🥤</div><div><h1>Canteen Khata</h1><p>Simple customer accounts, orders & payments</p></div></div><div class="today-pill">📅 <span id="todayLabel"></span></div></div></header>
+  <main class="wrap">
+    <section class="stats" aria-label="Canteen summary"><div class="stat"><span class="stat-label">Customers</span><b class="stat-value" id="totalCustomers">0</b></div><div class="stat"><span class="stat-label">Orders today</span><b class="stat-value" id="todayOrders">0</b></div><div class="stat"><span class="stat-label">Sales today</span><b class="stat-value" id="todaySales">Rs 0</b></div><div class="stat"><span class="stat-label">Outstanding</span><b class="stat-value" id="pendingAmount">Rs 0</b></div></section>
+    <nav class="nav" aria-label="Main navigation"><button class="active" type="button" data-view="customers">🔎 Customers</button><button type="button" data-view="register">＋ New customer</button><button type="button" data-view="products">🥤 Products</button><button type="button" data-view="backup">💾 Backup</button></nav>
+    <section class="view" id="view-customers"><div class="card"><h2>Find a customer</h2><p class="sub">Search by customer name or ID, then open their khata.</p><div class="searchbox"><label for="searchInput">Customer name or ID</label><input id="searchInput" type="search" placeholder="For example, Ali or C-0001" autocomplete="off"></div><div id="searchResults" class="results"></div></div><div id="customerDetails"></div></section>
+    <section class="view" id="view-register" hidden><div class="card"><h2>Register customer</h2><p class="sub">A unique customer ID is assigned automatically.</p><form id="customerForm"><div class="field"><label for="customerName">Customer name</label><input id="customerName" required maxlength="80" autocomplete="name" placeholder="Enter customer name"></div><div class="actions"><button class="btn primary" type="submit">Save customer</button></div></form><div id="customerMessage" aria-live="polite"></div></div></section>
+    <section class="view" id="view-products" hidden><div class="card"><h2>Products & prices</h2><p class="sub">Edit prices here. Existing orders keep their saved price.</p><form id="productForm"><input id="productId" type="hidden"><div class="form-grid three"><div class="field"><label for="productName">Product name</label><input id="productName" required maxlength="80" placeholder="e.g. Mango shake"></div><div class="field"><label for="mediumPrice">Medium price (Rs)</label><input id="mediumPrice" required type="number" min="0" step="0.01" inputmode="decimal" placeholder="100"></div><div class="field"><label for="largePrice">Large price (Rs)</label><input id="largePrice" required type="number" min="0" step="0.01" inputmode="decimal" placeholder="150"></div></div><div class="actions"><button id="productSaveButton" class="btn primary" type="submit">Add product</button><button id="productCancelButton" class="btn ghost" type="button" hidden>Cancel edit</button></div><div id="productMessage" aria-live="polite"></div></form><h3 style="margin-top:22px">Menu</h3><div id="productList"></div></div></section>
+    <section class="view" id="view-backup" hidden><div class="card"><h2>Backup & restore</h2><p class="sub">Your khata is saved only in this browser on this device. Download backups regularly, especially before clearing browser data or changing phones.</p><div class="actions"><button id="backupDownload" class="btn primary" type="button">Download full backup</button><button id="csvDownload" class="btn ghost" type="button">Download orders CSV</button></div><div class="field" style="margin-top:18px"><label for="restoreFile">Restore a JSON backup</label><input id="restoreFile" type="file" accept=".json,application/json"></div><div class="actions"><button id="restoreButton" class="btn ghost" type="button">Restore backup</button></div><p id="backupMessage" class="note" aria-live="polite"></p><div id="storageWarning" class="notice warn" hidden></div></div></section>
+    <p class="footer">Offline-ready • Data stays on this device</p>
+  </main>
 <script>
-const KEY="canteenKhataV2";
-const DEFAULT_PRODUCTS=[
- {id:"P-1",name:"Banana Shake",prices:{Medium:100,Large:150}},
- {id:"P-2",name:"Banana with Dates Shake",prices:{Medium:150,Large:200}},
- {id:"P-3",name:"Dates Shake",prices:{Medium:200,Large:250}}
-];
-let db=load();
-function load(){
- try{
-  let x=JSON.parse(localStorage.getItem(KEY));
-  if(!x||!Array.isArray(x.customers)||!Array.isArray(x.orders))return {customers:[],orders:[],next:1,products:DEFAULT_PRODUCTS.map(p=>({...p,prices:{...p.prices}}))};
-  if(!Array.isArray(x.products)||!x.products.length){
-   x.products=DEFAULT_PRODUCTS.map(p=>({...p,prices:{...p.prices}}));
-  }
-  x.next=x.next||x.customers.length+1;
-  return x;
- }catch(e){return {customers:[],orders:[],next:1,products:DEFAULT_PRODUCTS.map(p=>({...p,prices:{...p.prices}}))}}
+'use strict';
+const STORAGE_KEY='canteenKhataV2';
+const DEFAULT_PRODUCTS=[{id:'P-1',name:'Banana Shake',prices:{Medium:100,Large:150}},{id:'P-2',name:'Banana with Dates Shake',prices:{Medium:150,Large:200}},{id:'P-3',name:'Dates Shake',prices:{Medium:200,Large:250}}];
+const copyDefaults=()=>DEFAULT_PRODUCTS.map(p=>({id:p.id,name:p.name,prices:{...p.prices}}));
+function blankDb(){return {customers:[],orders:[],products:copyDefaults(),next:1}}
+function loadDb(){try{const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return blankDb();const d=JSON.parse(raw);if(!d||!Array.isArray(d.customers)||!Array.isArray(d.orders))return blankDb();if(!Array.isArray(d.products)||!d.products.length)d.products=copyDefaults();d.next=Math.max(Number(d.next)||1,d.customers.length+1);d.customers=d.customers.filter(c=>c&&c.id&&c.name);d.orders=d.orders.filter(o=>o&&o.id&&o.customerId);d.products=d.products.filter(p=>p&&p.id&&p.name&&p.prices);return d}catch(error){return blankDb()}}
+let db=loadDb();
+const $=id=>document.getElementById(id);
+function esc(value){return String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
+function money(value){return 'Rs '+Number(value||0).toLocaleString('en-PK',{maximumFractionDigits:2})}
+function today(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function dateLabel(date){if(!date)return '';const d=new Date(date+'T12:00:00');return Number.isNaN(d.getTime())?date:d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}
+function dayName(date){if(!date)return '';const d=new Date(date+'T12:00:00');return Number.isNaN(d.getTime())?'':d.toLocaleDateString('en-US',{weekday:'long'})}
+function persist(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(db));$('storageWarning').hidden=true;renderStats();return true}catch(error){$('storageWarning').hidden=false;$('storageWarning').textContent='Could not save data on this device. Check available browser storage and do not clear site data.';return false}}
+function renderStats(){const todayOrders=db.orders.filter(o=>o.date===today());$('totalCustomers').textContent=db.customers.length;$('todayOrders').textContent=todayOrders.length;$('todaySales').textContent=money(todayOrders.reduce((sum,o)=>sum+Number(o.total||0),0));$('pendingAmount').textContent=money(db.orders.filter(o=>!o.paid).reduce((sum,o)=>sum+Number(o.total||0),0))}
+function setView(name){document.querySelectorAll('.view').forEach(v=>v.hidden=v.id!=='view-'+name);document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===name));window.scrollTo({top:0,behavior:'smooth'})}
+function renderSearch(){const q=$('searchInput').value.trim().toLocaleLowerCase();const found=q?db.customers.filter(c=>c.name.toLocaleLowerCase().includes(q)||c.id.toLocaleLowerCase().includes(q)).slice(0,100):[];$('searchResults').innerHTML=found.length?found.map(c=>`<button class="customer-result" type="button" data-open-customer="${esc(c.id)}"><span class="customer-name">${esc(c.name)}</span><span class="customer-id">${esc(c.id)}</span></button>`).join(''):q?'<div class="empty">No customers found. Try another name or ID.</div>':'<div class="empty">Type a customer name or ID to search.</div>'}
+function createCustomer(name){const id='C-'+String(db.next++).padStart(4,'0');const customer={id,name,created:today()};db.customers.push(customer);persist();return customer}
+function registerCustomer(event){event.preventDefault();const name=$('customerName').value.trim();if(!name)return;const existing=db.customers.find(c=>c.name.toLocaleLowerCase()===name.toLocaleLowerCase());if(existing){$('customerMessage').innerHTML=`<div class="notice">This customer is already registered: <b>${esc(existing.id)}</b></div>`;openCustomer(existing.id);setView('customers');return}const customer=createCustomer(name);$('customerForm').reset();$('customerMessage').innerHTML=`<div class="notice">Customer saved. Their ID is <b>${esc(customer.id)}</b>.</div>`;renderSearch();openCustomer(customer.id);setView('customers')}
+function openCustomer(id){const c=db.customers.find(item=>item.id===id);if(!c)return;const orders=db.orders.filter(o=>o.customerId===id).sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.createdAt||'').localeCompare(a.createdAt||''));const total=orders.reduce((sum,o)=>sum+Number(o.total||0),0);const paid=orders.filter(o=>o.paid).reduce((sum,o)=>sum+Number(o.total||0),0);const due=total-paid;const productOptions=db.products.map(p=>`<option value="${esc(p.id)}">${esc(p.name)}</option>`).join('');const rows=orders.map(o=>`<tr><td>${esc(dateLabel(o.date))}<div class="subline">${esc(dayName(o.date))}</div></td><td><strong>${esc(o.product)}</strong><div class="subline">${esc(o.size)} × ${Number(o.qty)||0} · ${money(o.unitPrice)} each</div></td><td><strong>${money(o.total)}</strong></td><td><span class="status ${o.delivered?'delivered':'pending'}">${o.delivered?'Delivered':'Pending'}</span><div style="margin-top:6px"><button class="btn small ghost" type="button" data-toggle-order="${esc(o.id)}" data-field="delivered">Mark ${o.delivered?'pending':'delivered'}</button></div></td><td><span class="status ${o.paid?'paid':'unpaid'}">${o.paid?'Paid':'Unpaid'}</span><div style="margin-top:6px"><button class="btn small ghost" type="button" data-toggle-order="${esc(o.id)}" data-field="paid">Mark ${o.paid?'unpaid':'paid'}</button></div></td><td><button class="btn small danger" type="button" data-delete-order="${esc(o.id)}">Delete</button></td></tr>`).join('');
+  $('customerDetails').innerHTML=`<div class="card"><div class="customer-head"><div><span class="customer-id">${esc(c.id)}</span><h2>${esc(c.name)}</h2><div class="sub">Customer since ${esc(dateLabel(c.created))}</div></div></div><div class="customer-balances"><div class="balance"><span>Total orders</span><b>${money(total)}</b></div><div class="balance"><span>Paid</span><b>${money(paid)}</b></div><div class="balance due"><span>Remaining balance</span><b>${money(due)}</b></div></div></div>
+  <div class="card"><h2>Add an order</h2><p class="sub">Today's date is selected automatically. Prices are copied into the order when saved.</p><form id="orderForm" data-customer-id="${esc(c.id)}"><div class="form-grid"><div class="field"><label for="orderDate">Order date</label><input id="orderDate" type="date" value="${today()}" required></div><div class="field"><label for="orderProduct">Product</label><select id="orderProduct" required><option value="">Choose product</option>${productOptions}</select></div><div class="field"><label for="orderSize">Size</label><select id="orderSize" required><option value="">Choose size</option><option>Medium</option><option>Large</option></select></div><div class="field"><label for="orderQty">Quantity</label><input id="orderQty" type="number" min="1" step="1" value="1" inputmode="numeric" required></div></div><div class="order-total"><span>Price each <b id="unitPrice">${money(0)}</b></span><strong>Total <span id="lineTotal">${money(0)}</span></strong></div><div class="actions"><button class="btn primary" type="submit" ${db.products.length?'':'disabled'}>Save order</button></div>${db.products.length?'':'<p class="note">Add a product in Products before creating an order.</p>'}</form></div>
+  <div class="card"><h2>Customer history</h2>${orders.length?`<div class="table-wrap"><table><thead><tr><th>Date</th><th>Order</th><th>Amount</th><th>Delivery</th><th>Payment</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`:'<div class="empty">No orders yet. Add the first order above.</div>'}</div>`;
+  updateOrderPrice();$('customerDetails').scrollIntoView({behavior:'smooth',block:'start'});
 }
-function save(){localStorage.setItem(KEY,JSON.stringify(db));stats()}
-function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function money(n){return "Rs "+Number(n||0).toLocaleString("en-PK")}
-function today(){let d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
-function dayName(ds){return new Date(ds+"T12:00:00").toLocaleDateString("en-US",{weekday:"long"})}
-function dateLabel(ds){return new Date(ds+"T12:00:00").toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"})+" • "+dayName(ds)}
-function show(id,b){document.querySelectorAll("main>section").forEach(x=>x.classList.add("hidden"));document.getElementById(id).classList.remove("hidden");document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("active"));b.classList.add("active");if(id==="prices")renderPrices()}
-function stats(){document.getElementById("totalCustomers").textContent=db.customers.length;let t=today(),orders=db.orders.filter(o=>o.date===t);document.getElementById("todayOrders").textContent=orders.length;document.getElementById("todaySales").textContent=money(orders.reduce((a,o)=>a+Number(o.total||0),0));document.getElementById("pendingAmount").textContent=money(db.orders.filter(o=>!o.paid).reduce((a,o)=>a+Number(o.total||0),0))}
-function addCustomer(){
- let name=document.getElementById("newName").value.trim();if(!name){alert("Please enter the customer name.");return}
- let exists=db.customers.find(c=>c.name.toLowerCase()===name.toLowerCase());
- if(exists){document.getElementById("newMsg").innerHTML='<p class="notice">This customer already exists. Customer ID: <b>'+esc(exists.id)+'</b></p>';openCustomer(exists.id);show("search",document.querySelector(".tabs button"));return}
- let id="C-"+String(db.next++).padStart(4,"0"),c={id,name,created:today()};db.customers.push(c);save();document.getElementById("newName").value="";document.getElementById("newMsg").innerHTML='<p class="notice">Customer saved successfully. Customer ID: <b>'+id+'</b></p>';openCustomer(id);show("search",document.querySelector(".tabs button"))
-}
-function searchCustomers(){
- let q=document.getElementById("searchBox").value.trim().toLowerCase(),el=document.getElementById("searchResults");
- if(!q){el.innerHTML='<p class="muted">Enter a customer name or ID to search.</p>';return}
- let found=db.customers.filter(c=>c.name.toLowerCase().includes(q)||c.id.toLowerCase().includes(q)).slice(0,100);
- el.innerHTML=found.length?found.map(c=>`<div class="customer" onclick="openCustomer('${c.id}')"><strong>${esc(c.name)}</strong> <span class="bigid">${esc(c.id)}</span><div class="muted">Customer created: ${dateLabel(c.created)}</div></div>`).join(""):'<p class="empty">No customer found.</p>'
-}
-function openCustomer(id){
- let c=db.customers.find(x=>x.id===id);if(!c)return;
- document.getElementById("searchBox").value=c.name;document.getElementById("searchResults").innerHTML="";
- let orders=db.orders.filter(o=>o.customerId===id).sort((a,b)=>(b.date+(b.createdAt||"")).localeCompare(a.date+(a.createdAt||"")));
- let total=orders.reduce((a,o)=>a+Number(o.total||0),0),paid=orders.filter(o=>o.paid).reduce((a,o)=>a+Number(o.total||0),0),due=total-paid;
- let productOptions=db.products.map(p=>`<option value="${esc(p.id)}">${esc(p.name)}</option>`).join("");
- let html=`<div class="panel" style="background:#20364e"><div class="row"><div><span class="bigid">${esc(c.id)}</span><h2 style="margin:5px 0">${esc(c.name)}</h2><span class="muted">Customer since: ${dateLabel(c.created)}</span></div><div><span class="pill">${orders.length} Orders</span></div></div><div class="grid3"><div><div class="muted">Total Amount</div><b>${money(total)}</b></div><div><div class="muted">Paid</div><b>${money(paid)}</b></div><div><div class="muted">Balance Due</div><b style="color:var(--yellow)">${money(due)}</b></div></div></div>
- <div class="panel"><h3>➕ Add a New Order</h3><div class="grid2">
- <div><label>Order Date</label><input type="date" id="orderDate" value="${today()}" onchange="updateDay()"><div id="dayShow" class="muted">${dateLabel(today())}</div></div>
- <div><label>Select Item</label><select id="product" onchange="updatePrice()"><option value="">Choose an item</option>${productOptions}</select></div>
- <div><label>Size</label><select id="size" onchange="updatePrice()"><option value="">Choose size</option><option>Medium</option><option>Large</option></select></div>
- <div><label>Quantity</label><input type="number" id="qty" min="1" value="1" oninput="updatePrice()"></div></div>
- <div class="row" style="margin-top:8px"><div><div class="muted">Price per Item</div><div class="price" id="unitPrice">Rs 0</div></div><div><div class="muted">Order Total</div><div class="price" id="lineTotal">Rs 0</div></div></div>
- <div class="actions"><button class="primary" onclick="addOrder('${esc(id)}')">Save Order</button></div><div id="orderMsg"></div></div>
- <div class="panel"><h3>📒 Complete Customer History</h3>${orders.length?`<div class="tablewrap"><table><thead><tr><th>Date and Day</th><th>Order</th><th>Amount</th><th>Delivery</th><th>Payment</th><th>Action</th></tr></thead><tbody>${orders.map(o=>`<tr><td>${dateLabel(o.date)}</td><td>${esc(o.product)}<br>${esc(o.size)} × ${o.qty}</td><td>${money(o.total)}</td><td><span class="pill ${o.delivered?'ok':'pending'}">${o.delivered?'Delivered':'Not Delivered'}</span><br><button onclick="toggleOrder('${esc(o.id)}','delivered','${esc(id)}')">${o.delivered?'Undo':'Mark Delivered'}</button></td><td><span class="pill ${o.paid?'ok':'no'}">${o.paid?'Paid':'Unpaid'}</span><br><button onclick="toggleOrder('${esc(o.id)}','paid','${esc(id)}')">${o.paid?'Mark Unpaid':'Mark Paid'}</button></td><td><button class="danger" onclick="deleteOrder('${esc(o.id)}','${esc(id)}')">Delete</button></td></tr>`).join("")}</tbody></table></div>`:'<div class="empty">This customer has no orders yet.</div>'}</div>`;
- document.getElementById("customerView").innerHTML=html;document.getElementById("customerView").scrollIntoView({behavior:"smooth",block:"start"});updatePrice()
-}
-function updateDay(){let d=document.getElementById("orderDate").value;document.getElementById("dayShow").textContent=d?dateLabel(d):""}
-function getSelectedPrice(){
- let pid=document.getElementById("product")?.value,s=document.getElementById("size")?.value,p=db.products.find(x=>x.id===pid);
- return p&&s?Number(p.prices?.[s]||0):0
-}
-function updatePrice(){let q=Math.max(1,Number(document.getElementById("qty")?.value||1)),u=getSelectedPrice();document.getElementById("unitPrice").textContent=money(u);document.getElementById("lineTotal").textContent=money(u*q)}
-function addOrder(cid){
- let date=document.getElementById("orderDate").value,pid=document.getElementById("product").value,s=document.getElementById("size").value,q=Number(document.getElementById("qty").value),p=db.products.find(x=>x.id===pid);
- if(!date||!p||!s||!Number.isInteger(q)||q<1){alert("Please select a date, item, size, and valid quantity.");return}
- let price=Number(p.prices[s]),o={id:"O-"+Date.now()+"-"+Math.floor(Math.random()*10000),customerId:cid,date,product:p.name,productId:p.id,size:s,qty:q,unitPrice:price,total:price*q,delivered:false,paid:false,createdAt:new Date().toISOString()};
- db.orders.push(o);save();openCustomer(cid);document.getElementById("orderMsg").innerHTML='<p class="notice">Order saved successfully. Total: '+money(o.total)+' • '+dateLabel(date)+'</p>'
-}
-function toggleOrder(oid,field,cid){let o=db.orders.find(x=>x.id===oid);if(!o)return;o[field]=!o[field];save();openCustomer(cid)}
-function deleteOrder(oid,cid){if(!confirm("Are you sure you want to delete this order?"))return;db.orders=db.orders.filter(x=>x.id!==oid);save();openCustomer(cid)}
-function renderPrices(){
- let body=document.getElementById("priceRows");
- body.innerHTML=db.products.map(p=>`<tr><td>${esc(p.name)}</td><td>${money(p.prices.Medium)}</td><td>${money(p.prices.Large)}</td><td><div class="actions"><button onclick="editItem('${esc(p.id)}')">Edit</button><button class="danger" onclick="deleteItem('${esc(p.id)}')">Delete</button></div></td></tr>`).join("")||'<tr><td colspan="4">No menu items yet. Add your first item above.</td></tr>'
-}
-function clearItemForm(){document.getElementById("editItemId").value="";document.getElementById("itemName").value="";document.getElementById("mediumPrice").value="";document.getElementById("largePrice").value="";document.getElementById("itemFormTitle").textContent="➕ Add a New Item";document.getElementById("itemMsg").textContent=""}
-function editItem(id){
- let p=db.products.find(x=>x.id===id);if(!p)return;
- document.getElementById("editItemId").value=p.id;document.getElementById("itemName").value=p.name;document.getElementById("mediumPrice").value=p.prices.Medium;document.getElementById("largePrice").value=p.prices.Large;document.getElementById("itemFormTitle").textContent="✏️ Edit Item and Prices";document.getElementById("itemMsg").textContent="Update the details, then press Save Item / Price.";document.getElementById("itemName").focus()
-}
-function saveItem(){
- let id=document.getElementById("editItemId").value,name=document.getElementById("itemName").value.trim(),m=document.getElementById("mediumPrice").value,l=document.getElementById("largePrice").value;
- if(!name||m===""||l===""||!Number.isFinite(Number(m))||!Number.isFinite(Number(l))||Number(m)<0||Number(l)<0){alert("Enter an item name and valid Medium and Large prices (zero or more).");return}
- if(db.products.some(p=>p.name.toLowerCase()===name.toLowerCase()&&p.id!==id)){alert("An item with this name already exists. Please use a different name.");return}
- if(id){let p=db.products.find(x=>x.id===id);if(!p)return;p.name=name;p.prices={Medium:Number(m),Large:Number(l)};document.getElementById("itemMsg").textContent="Item and prices updated. New prices apply to future orders."}
- else{let newId="P-"+Date.now()+"-"+Math.floor(Math.random()*10000);db.products.push({id:newId,name,prices:{Medium:Number(m),Large:Number(l)}});document.getElementById("itemMsg").textContent="New item added successfully."}
- save();renderPrices();document.getElementById("editItemId").value="";document.getElementById("itemName").value="";document.getElementById("mediumPrice").value="";document.getElementById("largePrice").value="";document.getElementById("itemFormTitle").textContent="➕ Add a New Item"
-}
-function deleteItem(id){
- let p=db.products.find(x=>x.id===id);if(!p)return;
- if(!confirm('Delete "'+p.name+'" from your current menu? Previous order history will remain unchanged.'))return;
- db.products=db.products.filter(x=>x.id!==id);save();renderPrices();document.getElementById("editItemId").value="";document.getElementById("itemName").value="";document.getElementById("mediumPrice").value="";document.getElementById("largePrice").value="";document.getElementById("itemFormTitle").textContent="➕ Add a New Item"
-}
-function exportBackup(){let blob=new Blob([JSON.stringify(db,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="canteen-khata-backup-"+today()+".json";a.click();URL.revokeObjectURL(a.href)}
-function exportCSV(){
- let rows=[["Customer ID","Customer Name","Date","Day","Product","Size","Quantity","Unit Price","Total","Delivered","Paid"]];
- db.orders.forEach(o=>{let c=db.customers.find(x=>x.id===o.customerId);rows.push([o.customerId,c?.name||"",o.date,dayName(o.date),o.product,o.size,o.qty,o.unitPrice,o.total,o.delivered?"Yes":"No",o.paid?"Yes":"No"])});
- let csv="\ufeff"+rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(",")).join("\n"),blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="canteen-orders-"+today()+".csv";a.click();URL.revokeObjectURL(a.href)
-}
-function restoreBackup(){
- let f=document.getElementById("restoreFile").files[0];if(!f){alert("Please select a JSON backup file first.");return}
- let r=new FileReader();r.onload=()=>{try{
-  let x=JSON.parse(r.result);if(!Array.isArray(x.customers)||!Array.isArray(x.orders))throw Error();
-  if(!Array.isArray(x.products)||!x.products.length)x.products=DEFAULT_PRODUCTS.map(p=>({...p,prices:{...p.prices}}));
-  if(!confirm("Current data will be replaced by the backup. Continue?"))return;
-  db=x;db.next=db.next||db.customers.length+1;save();renderPrices();document.getElementById("backupMsg").textContent="Backup restored successfully."
- }catch(e){alert("This is not a valid backup file.")}};r.readAsText(f)
-}
-stats();searchCustomers();renderPrices();
+function selectedPrice(){const p=db.products.find(item=>item.id===$('orderProduct')?.value);const size=$('orderSize')?.value;return p&&size?Number(p.prices[size]||0):0}
+function updateOrderPrice(){if(!$('orderQty'))return;const qty=Math.max(0,Number($('orderQty').value)||0);const price=selectedPrice();$('unitPrice').textContent=money(price);$('lineTotal').textContent=money(price*qty)}
+function addOrder(event){event.preventDefault();const form=event.currentTarget;const customerId=form.dataset.customerId;const date=$('orderDate').value;const p=db.products.find(item=>item.id===$('orderProduct').value);const size=$('orderSize').value;const qty=Number($('orderQty').value);if(!date||!p||!['Medium','Large'].includes(size)||!Number.isInteger(qty)||qty<1){alert('Please choose a date, product, size and valid quantity.');return}const unitPrice=Number(p.prices[size]);db.orders.push({id:'O-'+Date.now()+'-'+Math.floor(Math.random()*10000),customerId,date,product:p.name,productId:p.id,size,qty,unitPrice,total:unitPrice*qty,delivered:false,paid:false,createdAt:new Date().toISOString()});persist();openCustomer(customerId)}
+function toggleOrder(id,field){if(!['paid','delivered'].includes(field))return;const order=db.orders.find(o=>o.id===id);if(!order)return;order[field]=!order[field];persist();openCustomer(order.customerId)}
+function deleteOrder(id){const order=db.orders.find(o=>o.id===id);if(!order||!confirm('Delete this order from the customer history?'))return;const customerId=order.customerId;db.orders=db.orders.filter(o=>o.id!==id);persist();openCustomer(customerId)}
+function renderProducts(){$('productList').innerHTML=db.products.length?db.products.map(p=>`<div class="product-row"><div><strong>${esc(p.name)}</strong><small>Medium ${money(p.prices.Medium)} · Large ${money(p.prices.Large)}</small></div><div class="actions" style="margin:0;flex-wrap:nowrap"><button class="btn small ghost" type="button" data-edit-product="${esc(p.id)}">Edit</button><button class="btn small danger" type="button" data-delete-product="${esc(p.id)}">Delete</button></div></div>`).join(''):'<div class="empty">No products. Add a product above.</div>'}
+function clearProductForm(){ $('productForm').reset();$('productId').value='';$('productSaveButton').textContent='Add product';$('productCancelButton').hidden=true }
+function editProduct(id){const p=db.products.find(item=>item.id===id);if(!p)return;$('productId').value=p.id;$('productName').value=p.name;$('mediumPrice').value=p.prices.Medium;$('largePrice').value=p.prices.Large;$('productSaveButton').textContent='Save changes';$('productCancelButton').hidden=false;$('productName').focus()}
+function saveProduct(event){event.preventDefault();const id=$('productId').value;const name=$('productName').value.trim();const medium=Number($('mediumPrice').value);const large=Number($('largePrice').value);if(!name||!Number.isFinite(medium)||!Number.isFinite(large)||medium<0||large<0){alert('Enter a product name and valid prices (zero or more).');return}if(db.products.some(p=>p.name.toLocaleLowerCase()===name.toLocaleLowerCase()&&p.id!==id)){alert('A product with this name already exists.');return}if(id){const p=db.products.find(item=>item.id===id);if(!p)return;p.name=name;p.prices={Medium:medium,Large:large}}else db.products.push({id:'P-'+Date.now()+'-'+Math.floor(Math.random()*10000),name,prices:{Medium:medium,Large:large}});persist();renderProducts();clearProductForm();$('productMessage').innerHTML='<div class="notice">Product and prices saved.</div>'}
+function deleteProduct(id){const p=db.products.find(item=>item.id===id);if(!p||!confirm(`Remove “${p.name}” from the current menu? Existing orders will remain.`))return;db.products=db.products.filter(item=>item.id!==id);persist();renderProducts()}
+function downloadFile(filename,content,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+function exportBackup(){downloadFile(`canteen-khata-backup-${today()}.json`,JSON.stringify(db,null,2),'application/json')}
+function exportCsv(){const rows=[['Customer ID','Customer Name','Date','Day','Product','Size','Quantity','Unit Price','Total','Delivered','Paid']];db.orders.forEach(o=>{const c=db.customers.find(x=>x.id===o.customerId);rows.push([o.customerId,c?.name||'',o.date,dayName(o.date),o.product,o.size,o.qty,o.unitPrice,o.total,o.delivered?'Yes':'No',o.paid?'Yes':'No'])});const csv='\ufeff'+rows.map(row=>row.map(value=>'"'+String(value??'').replace(/"/g,'""')+'"').join(',')).join('\n');downloadFile(`canteen-khata-orders-${today()}.csv`,csv,'text/csv;charset=utf-8')}
+function restoreBackup(){const file=$('restoreFile').files[0];if(!file){$('backupMessage').textContent='Choose a JSON backup file first.';return}const reader=new FileReader();reader.onload=()=>{try{const restored=JSON.parse(reader.result);if(!restored||!Array.isArray(restored.customers)||!Array.isArray(restored.orders))throw new Error('Invalid data');if(!Array.isArray(restored.products)||!restored.products.length)restored.products=copyDefaults();restored.next=Math.max(Number(restored.next)||1,restored.customers.length+1);if(!confirm('This will replace the data currently saved on this device. Continue?'))return;db=restored;if(persist()){$('backupMessage').textContent='Backup restored successfully.';renderProducts();renderSearch();$('customerDetails').innerHTML=''}}catch(error){$('backupMessage').textContent='That file is not a valid Canteen Khata backup.'}};reader.onerror=()=>{$('backupMessage').textContent='Could not read the selected file.'};reader.readAsText(file)}
+
+document.querySelector('.nav').addEventListener('click',event=>{const button=event.target.closest('[data-view]');if(button)setView(button.dataset.view)});
+$('customerForm').addEventListener('submit',registerCustomer);$('productForm').addEventListener('submit',saveProduct);$('productCancelButton').addEventListener('click',clearProductForm);$('searchInput').addEventListener('input',renderSearch);$('customerDetails').addEventListener('submit',event=>{if(event.target.id==='orderForm')addOrder(event)});$('customerDetails').addEventListener('input',event=>{if(['orderProduct','orderSize','orderQty'].includes(event.target.id))updateOrderPrice()});$('customerDetails').addEventListener('change',event=>{if(['orderProduct','orderSize','orderQty'].includes(event.target.id))updateOrderPrice()});
+document.body.addEventListener('click',event=>{const t=event.target.closest('[data-open-customer],[data-toggle-order],[data-delete-order],[data-edit-product],[data-delete-product]');if(!t)return;if(t.dataset.openCustomer){openCustomer(t.dataset.openCustomer);return}if(t.dataset.toggleOrder){toggleOrder(t.dataset.toggleOrder,t.dataset.field);return}if(t.dataset.deleteOrder){deleteOrder(t.dataset.deleteOrder);return}if(t.dataset.editProduct){editProduct(t.dataset.editProduct);return}if(t.dataset.deleteProduct)deleteProduct(t.dataset.deleteProduct)});
+$('backupDownload').addEventListener('click',exportBackup);$('csvDownload').addEventListener('click',exportCsv);$('restoreButton').addEventListener('click',restoreBackup);
+$('todayLabel').textContent=new Date().toLocaleDateString('en-GB',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});renderStats();renderSearch();renderProducts();
+if('serviceWorker'in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 </script>
-<script>if ("serviceWorker" in navigator) { window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(()=>{})); }</script>
 </body>
 </html>

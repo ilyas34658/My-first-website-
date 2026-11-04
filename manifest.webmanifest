@@ -1,0 +1,1 @@
+{"name":"Canteen Khata","short_name":"Khata","description":"Offline-friendly canteen customer accounts and orders","start_url":"./","scope":"./","display":"standalone","orientation":"portrait","background_color":"#f4f8f5","theme_color":"#087f5b","icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]}
