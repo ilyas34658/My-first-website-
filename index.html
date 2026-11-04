@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101827">
+<link rel="manifest" href="manifest.webmanifest">
+
+<title>Canteen Customer Khata</title>
+<style>
+:root{--bg:#101827;--panel:#1a293d;--panel2:#243a54;--line:#3b526e;--txt:#f4f7fb;--muted:#b5c3d5;--green:#65ddb1;--yellow:#ffd166;--red:#ff8585}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(140deg,#0d1725,#172c40);color:var(--txt);font-family:Arial,system-ui,sans-serif}
+header{background:#0b1420;padding:18px 14px;text-align:center;border-bottom:1px solid var(--line)}h1{margin:0;font-size:26px}header p{margin:7px 0 0;color:var(--muted)}
+main{max-width:1100px;margin:18px auto;padding:0 12px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.stat,.panel{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:14px}.stat{text-align:center}.stat b{display:block;color:var(--green);font-size:23px;margin-bottom:3px}.stat span{font-size:12px;color:var(--muted)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.tabs button,button{border:0;border-radius:10px;padding:11px 14px;background:var(--panel2);color:var(--txt);font-weight:700;cursor:pointer}.tabs button.active,.primary{background:var(--green);color:#102235}.danger{background:#693b46}.muted{color:var(--muted);font-size:13px;line-height:1.7}.panel{margin:12px 0}.hidden{display:none!important}
+label{display:block;color:var(--muted);font-size:13px;margin:8px 0 5px}input,select{width:100%;padding:12px;border-radius:9px;border:1px solid #526982;background:#0f1b2b;color:var(--txt);font-size:16px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.row>*{flex:1}.price{font-size:25px;color:var(--yellow);font-weight:bold}.pill{display:inline-block;padding:5px 9px;border-radius:20px;background:#30465f;font-size:12px}.ok{background:#17533e}.pending{background:#604a22}.no{background:#623842}
+table{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px}th,td{text-align:left;padding:10px 7px;border-bottom:1px solid var(--line);vertical-align:top}th{color:var(--green)}.tablewrap{overflow-x:auto}.customer{padding:12px;border:1px solid var(--line);border-radius:11px;margin:8px 0;background:#20334b;cursor:pointer}.customer:hover{border-color:var(--green)}.customer strong{font-size:17px}.bigid{color:var(--yellow);font-weight:bold}.notice{background:#213b4d;border:1px solid #42647c;padding:10px;border-radius:10px;line-height:1.6}.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.actions button{padding:9px 11px}.empty{text-align:center;padding:22px;color:var(--muted)}
+@media(max-width:650px){.stats{grid-template-columns:repeat(2,1fr)}.grid2,.grid3{grid-template-columns:1fr}.tabs button{flex:1 1 40%}h1{font-size:22px}table{min-width:650px}}
+</style>
+</head>
+<body>
+<header><h1>🥤 Canteen Customer Khata</h1><p>Customer Accounts • Daily Orders • Delivery • Payments • Complete History</p></header>
+<main>
+<div class="stats">
+ <div class="stat"><b id="totalCustomers">0</b><span>Total Customers</span></div>
+ <div class="stat"><b id="todayOrders">0</b><span>Today's Orders</span></div>
+ <div class="stat"><b id="todaySales">Rs 0</b><span>Today's Sales</span></div>
+ <div class="stat"><b id="pendingAmount">Rs 0</b><span>Pending Payments</span></div>
+</div>
+<div class="tabs">
+ <button class="active" onclick="show('search',this)">🔎 Customer Search</button>
+ <button onclick="show('newCustomer',this)">➕ New Customer</button>
+ <button onclick="show('prices',this)">💰 Manage Items & Prices</button>
+ <button onclick="show('backup',this)">💾 Backup</button>
+</div>
+
+<section id="search" class="panel">
+ <h2>Find a Customer</h2><label>Enter customer name or Customer ID</label>
+ <input id="searchBox" placeholder="For example: Ali or C-0001" oninput="searchCustomers()">
+ <div id="searchResults" class="muted">Customer results will appear here. Save each customer's name once, then search whenever they return.</div>
+ <div id="customerView"></div>
+</section>
+
+<section id="newCustomer" class="panel hidden">
+ <h2>Add New Customer</h2><p class="muted">Enter the customer's name once. The system will generate a unique ID automatically.</p>
+ <label>Customer Name</label><input id="newName" placeholder="Customer name" autocomplete="off">
+ <div class="actions"><button class="primary" onclick="addCustomer()">Save Customer</button></div><div id="newMsg"></div>
+</section>
+
+<section id="prices" class="panel hidden">
+ <h2>Manage Items & Prices</h2>
+ <p class="muted">Add new menu items, change item names, and edit Medium and Large prices whenever you need. Price changes apply to new orders only. Old order records keep their original prices.</p>
+ <div class="panel" style="background:#20364e">
+  <h3 id="itemFormTitle">➕ Add a New Item</h3>
+  <input type="hidden" id="editItemId">
+  <div class="grid3">
+   <div><label>Item Name</label><input id="itemName" placeholder="For example: Mango Shake"></div>
+   <div><label>Medium Price (Rs)</label><input id="mediumPrice" type="number" min="0" step="1" placeholder="e.g. 150"></div>
+   <div><label>Large Price (Rs)</label><input id="largePrice" type="number" min="0" step="1" placeholder="e.g. 200"></div>
+  </div>
+  <div class="actions"><button class="primary" onclick="saveItem()">Save Item / Price</button><button onclick="clearItemForm()">Clear</button></div>
+  <p id="itemMsg" class="muted"></p>
+ </div>
+ <h3>Your Menu and Current Prices</h3>
+ <div class="tablewrap"><table><thead><tr><th>Item</th><th>Medium</th><th>Large</th><th>Actions</th></tr></thead><tbody id="priceRows"></tbody></table></div>
+</section>
+
+<section id="backup" class="panel hidden">
+ <h2>Data Backup and Restore</h2><div class="notice">Your data is stored in this browser on this device. Download a backup regularly, especially before changing devices or clearing browser data. The backup includes customers, orders, and your menu prices.</div>
+ <div class="actions"><button class="primary" onclick="exportBackup()">Download Full Backup</button><button onclick="exportCSV()">Download Orders as CSV</button></div>
+ <label>Restore a Previous Backup (JSON)</label><input type="file" id="restoreFile" accept=".json,application/json"><div class="actions"><button onclick="restoreBackup()">Restore Backup</button></div><p id="backupMsg" class="muted"></p>
+</section>
+</main>
+<script>
+const KEY="canteenKhataV2";
+const DEFAULT_PRODUCTS=[
+ {id:"P-1",name:"Banana Shake",prices:{Medium:100,Large:150}},
+ {id:"P-2",name:"Banana with Dates Shake",prices:{Medium:150,Large:200}},
+ {id:"P-3",name:"Dates Shake",prices:{Medium:200,Large:250}}
+];
+let db=load();
+function load(){
+ try{
+  let x=JSON.parse(localStorage.getItem(KEY));
+  if(!x||!Array.isArray(x.customers)||!Array.isArray(x.orders))return {customers:[],orders:[],next:1,products:DEFAULT_PRODUCTS.map(p=>({...p,prices:{...p.prices}}))};
+  if(!Array.isArray(x.products)||!x.products.length){
+   x.products=DEFAULT_PRODUCTS.map(p=>({...p,prices:{...p.prices}}));
+  }
+  x.next=x.next||x.customers.length+1;
+  return x;
+ }catch(e){return {customers:[],orders:[],next:1,products:DEFAULT_PRODUCTS.map(p=>({...p,prices:{...p.prices}}))}}
+}
+function save(){localStorage.setItem(KEY,JSON.stringify(db));stats()}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function money(n){return "Rs "+Number(n||0).toLocaleString("en-PK")}
+function today(){let d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function dayName(ds){return new Date(ds+"T12:00:00").toLocaleDateString("en-US",{weekday:"long"})}
+function dateLabel(ds){return new Date(ds+"T12:00:00").toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"})+" • "+dayName(ds)}
+function show(id,b){document.querySelectorAll("main>section").forEach(x=>x.classList.add("hidden"));document.getElementById(id).classList.remove("hidden");document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("active"));b.classList.add("active");if(id==="prices")renderPrices()}
+function stats(){document.getElementById("totalCustomers").textContent=db.customers.length;let t=today(),orders=db.orders.filter(o=>o.date===t);document.getElementById("todayOrders").textContent=orders.length;document.getElementById("todaySales").textContent=money(orders.reduce((a,o)=>a+Number(o.total||0),0));document.getElementById("pendingAmount").textContent=money(db.orders.filter(o=>!o.paid).reduce((a,o)=>a+Number(o.total||0),0))}
+function addCustomer(){
+ let name=document.getElementById("newName").value.trim();if(!name){alert("Please enter the customer name.");return}
+ let exists=db.customers.find(c=>c.name.toLowerCase()===name.toLowerCase());
+ if(exists){document.getElementById("newMsg").innerHTML='<p class="notice">This customer already exists. Customer ID: <b>'+esc(exists.id)+'</b></p>';openCustomer(exists.id);show("search",document.querySelector(".tabs button"));return}
+ let id="C-"+String(db.next++).padStart(4,"0"),c={id,name,created:today()};db.customers.push(c);save();document.getElementById("newName").value="";document.getElementById("newMsg").innerHTML='<p class="notice">Customer saved successfully. Customer ID: <b>'+id+'</b></p>';openCustomer(id);show("search",document.querySelector(".tabs button"))
+}
+function searchCustomers(){
+ let q=document.getElementById("searchBox").value.trim().toLowerCase(),el=document.getElementById("searchResults");
+ if(!q){el.innerHTML='<p class="muted">Enter a customer name or ID to search.</p>';return}
+ let found=db.customers.filter(c=>c.name.toLowerCase().includes(q)||c.id.toLowerCase().includes(q)).slice(0,100);
+ el.innerHTML=found.length?found.map(c=>`<div class="customer" onclick="openCustomer('${c.id}')"><strong>${esc(c.name)}</strong> <span class="bigid">${esc(c.id)}</span><div class="muted">Customer created: ${dateLabel(c.created)}</div></div>`).join(""):'<p class="empty">No customer found.</p>'
+}
+function openCustomer(id){
+ let c=db.customers.find(x=>x.id===id);if(!c)return;
+ document.getElementById("searchBox").value=c.name;document.getElementById("searchResults").innerHTML="";
+ let orders=db.orders.filter(o=>o.customerId===id).sort((a,b)=>(b.date+(b.createdAt||"")).localeCompare(a.date+(a.createdAt||"")));
+ let total=orders.reduce((a,o)=>a+Number(o.total||0),0),paid=orders.filter(o=>o.paid).reduce((a,o)=>a+Number(o.total||0),0),due=total-paid;
+ let productOptions=db.products.map(p=>`<option value="${esc(p.id)}">${esc(p.name)}</option>`).join("");
+ let html=`<div class="panel" style="background:#20364e"><div class="row"><div><span class="bigid">${esc(c.id)}</span><h2 style="margin:5px 0">${esc(c.name)}</h2><span class="muted">Customer since: ${dateLabel(c.created)}</span></div><div><span class="pill">${orders.length} Orders</span></div></div><div class="grid3"><div><div class="muted">Total Amount</div><b>${money(total)}</b></div><div><div class="muted">Paid</div><b>${money(paid)}</b></div><div><div class="muted">Balance Due</div><b style="color:var(--yellow)">${money(due)}</b></div></div></div>
+ <div class="panel"><h3>➕ Add a New Order</h3><div class="grid2">
+ <div><label>Order Date</label><input type="date" id="orderDate" value="${today()}" onchange="updateDay()"><div id="dayShow" class="muted">${dateLabel(today())}</div></div>
+ <div><label>Select Item</label><select id="product" onchange="updatePrice()"><option value="">Choose an item</option>${productOptions}</select></div>
+ <div><label>Size</label><select id="size" onchange="updatePrice()"><option value="">Choose size</option><option>Medium</option><option>Large</option></select></div>
+ <div><label>Quantity</label><input type="number" id="qty" min="1" value="1" oninput="updatePrice()"></div></div>
+ <div class="row" style="margin-top:8px"><div><div class="muted">Price per Item</div><div class="price" id="unitPrice">Rs 0</div></div><div><div class="muted">Order Total</div><div class="price" id="lineTotal">Rs 0</div></div></div>
+ <div class="actions"><button class="primary" onclick="addOrder('${esc(id)}')">Save Order</button></div><div id="orderMsg"></div></div>
+ <div class="panel"><h3>📒 Complete Customer History</h3>${orders.length?`<div class="tablewrap"><table><thead><tr><th>Date and Day</th><th>Order</th><th>Amount</th><th>Delivery</th><th>Payment</th><th>Action</th></tr></thead><tbody>${orders.map(o=>`<tr><td>${dateLabel(o.date)}</td><td>${esc(o.product)}<br>${esc(o.size)} × ${o.qty}</td><td>${money(o.total)}</td><td><span class="pill ${o.delivered?'ok':'pending'}">${o.delivered?'Delivered':'Not Delivered'}</span><br><button onclick="toggleOrder('${esc(o.id)}','delivered','${esc(id)}')">${o.delivered?'Undo':'Mark Delivered'}</button></td><td><span class="pill ${o.paid?'ok':'no'}">${o.paid?'Paid':'Unpaid'}</span><br><button onclick="toggleOrder('${esc(o.id)}','paid','${esc(id)}')">${o.paid?'Mark Unpaid':'Mark Paid'}</button></td><td><button class="danger" onclick="deleteOrder('${esc(o.id)}','${esc(id)}')">Delete</button></td></tr>`).join("")}</tbody></table></div>`:'<div class="empty">This customer has no orders yet.</div>'}</div>`;
+ document.getElementById("customerView").innerHTML=html;document.getElementById("customerView").scrollIntoView({behavior:"smooth",block:"start"});updatePrice()
+}
+function updateDay(){let d=document.getElementById("orderDate").value;document.getElementById("dayShow").textContent=d?dateLabel(d):""}
+function getSelectedPrice(){
+ let pid=document.getElementById("product")?.value,s=document.getElementById("size")?.value,p=db.products.find(x=>x.id===pid);
+ return p&&s?Number(p.prices?.[s]||0):0
+}
+function updatePrice(){let q=Math.max(1,Number(document.getElementById("qty")?.value||1)),u=getSelectedPrice();document.getElementById("unitPrice").textContent=money(u);document.getElementById("lineTotal").textContent=money(u*q)}
+function addOrder(cid){
+ let date=document.getElementById("orderDate").value,pid=document.getElementById("product").value,s=document.getElementById("size").value,q=Number(document.getElementById("qty").value),p=db.products.find(x=>x.id===pid);
+ if(!date||!p||!s||!Number.isInteger(q)||q<1){alert("Please select a date, item, size, and valid quantity.");return}
+ let price=Number(p.prices[s]),o={id:"O-"+Date.now()+"-"+Math.floor(Math.random()*10000),customerId:cid,date,product:p.name,productId:p.id,size:s,qty:q,unitPrice:price,total:price*q,delivered:false,paid:false,createdAt:new Date().toISOString()};
+ db.orders.push(o);save();openCustomer(cid);document.getElementById("orderMsg").innerHTML='<p class="notice">Order saved successfully. Total: '+money(o.total)+' • '+dateLabel(date)+'</p>'
+}
+function toggleOrder(oid,field,cid){let o=db.orders.find(x=>x.id===oid);if(!o)return;o[field]=!o[field];save();openCustomer(cid)}
+function deleteOrder(oid,cid){if(!confirm("Are you sure you want to delete this order?"))return;db.orders=db.orders.filter(x=>x.id!==oid);save();openCustomer(cid)}
+function renderPrices(){
+ let body=document.getElementById("priceRows");
+ body.innerHTML=db.products.map(p=>`<tr><td>${esc(p.name)}</td><td>${money(p.prices.Medium)}</td><td>${money(p.prices.Large)}</td><td><div class="actions"><button onclick="editItem('${esc(p.id)}')">Edit</button><button class="danger" onclick="deleteItem('${esc(p.id)}')">Delete</button></div></td></tr>`).join("")||'<tr><td colspan="4">No menu items yet. Add your first item above.</td></tr>'
+}
+function clearItemForm(){document.getElementById("editItemId").value="";document.getElementById("itemName").value="";document.getElementById("mediumPrice").value="";document.getElementById("largePrice").value="";document.getElementById("itemFormTitle").textContent="➕ Add a New Item";document.getElementById("itemMsg").textContent=""}
+function editItem(id){
+ let p=db.products.find(x=>x.id===id);if(!p)return;
+ document.getElementById("editItemId").value=p.id;document.getElementById("itemName").value=p.name;document.getElementById("mediumPrice").value=p.prices.Medium;document.getElementById("largePrice").value=p.prices.Large;document.getElementById("itemFormTitle").textContent="✏️ Edit Item and Prices";document.getElementById("itemMsg").textContent="Update the details, then press Save Item / Price.";document.getElementById("itemName").focus()
+}
+function saveItem(){
+ let id=document.getElementById("editItemId").value,name=document.getElementById("itemName").value.trim(),m=document.getElementById("mediumPrice").value,l=document.getElementById("largePrice").value;
+ if(!name||m===""||l===""||!Number.isFinite(Number(m))||!Number.isFinite(Number(l))||Number(m)<0||Number(l)<0){alert("Enter an item name and valid Medium and Large prices (zero or more).");return}
+ if(db.products.some(p=>p.name.toLowerCase()===name.toLowerCase()&&p.id!==id)){alert("An item with this name already exists. Please use a different name.");return}
+ if(id){let p=db.products.find(x=>x.id===id);if(!p)return;p.name=name;p.prices={Medium:Number(m),Large:Number(l)};document.getElementById("itemMsg").textContent="Item and prices updated. New prices apply to future orders."}
+ else{let newId="P-"+Date.now()+"-"+Math.floor(Math.random()*10000);db.products.push({id:newId,name,prices:{Medium:Number(m),Large:Number(l)}});document.getElementById("itemMsg").textContent="New item added successfully."}
+ save();renderPrices();document.getElementById("editItemId").value="";document.getElementById("itemName").value="";document.getElementById("mediumPrice").value="";document.getElementById("largePrice").value="";document.getElementById("itemFormTitle").textContent="➕ Add a New Item"
+}
+function deleteItem(id){
+ let p=db.products.find(x=>x.id===id);if(!p)return;
+ if(!confirm('Delete "'+p.name+'" from your current menu? Previous order history will remain unchanged.'))return;
+ db.products=db.products.filter(x=>x.id!==id);save();renderPrices();document.getElementById("editItemId").value="";document.getElementById("itemName").value="";document.getElementById("mediumPrice").value="";document.getElementById("largePrice").value="";document.getElementById("itemFormTitle").textContent="➕ Add a New Item"
+}
+function exportBackup(){let blob=new Blob([JSON.stringify(db,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="canteen-khata-backup-"+today()+".json";a.click();URL.revokeObjectURL(a.href)}
+function exportCSV(){
+ let rows=[["Customer ID","Customer Name","Date","Day","Product","Size","Quantity","Unit Price","Total","Delivered","Paid"]];
+ db.orders.forEach(o=>{let c=db.customers.find(x=>x.id===o.customerId);rows.push([o.customerId,c?.name||"",o.date,dayName(o.date),o.product,o.size,o.qty,o.unitPrice,o.total,o.delivered?"Yes":"No",o.paid?"Yes":"No"])});
+ let csv="\ufeff"+rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(",")).join("\n"),blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="canteen-orders-"+today()+".csv";a.click();URL.revokeObjectURL(a.href)
+}
+function restoreBackup(){
+ let f=document.getElementById("restoreFile").files[0];if(!f){alert("Please select a JSON backup file first.");return}
+ let r=new FileReader();r.onload=()=>{try{
+  let x=JSON.parse(r.result);if(!Array.isArray(x.customers)||!Array.isArray(x.orders))throw Error();
+  if(!Array.isArray(x.products)||!x.products.length)x.products=DEFAULT_PRODUCTS.map(p=>({...p,prices:{...p.prices}}));
+  if(!confirm("Current data will be replaced by the backup. Continue?"))return;
+  db=x;db.next=db.next||db.customers.length+1;save();renderPrices();document.getElementById("backupMsg").textContent="Backup restored successfully."
+ }catch(e){alert("This is not a valid backup file.")}};r.readAsText(f)
+}
+stats();searchCustomers();renderPrices();
+</script>
+<script>if ("serviceWorker" in navigator) { window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(()=>{})); }</script>
+</body>
+</html>
